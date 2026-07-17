@@ -1,5 +1,4 @@
 /* Charity: water Brand Colors & Fonts
-
 Primary Colors:
 - Yellow:     #FFC907
 - Blue:       #2E9DF7
@@ -9,13 +8,6 @@ Secondary Colors:
 - Green:      #4FCB53
 - Orange:     #FF902A
 - Red:        #F5402C
-- Dark Green: #159A48
-- Pink:       #F16061
-
-Fonts:
-- Proxima Nova
-- Avenir
-
 */
 
 * {
@@ -29,8 +21,8 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
+    background-color: #f7f7f7; /* Soft off-white brand background */
+    font-family: "Avenir", "Proxima Nova", Arial, sans-serif;
 }
 
 .game-wrapper {
@@ -40,97 +32,104 @@ body {
     gap: 20px;
 }
 
-.score-panel {
-    display: flex;
-    justify-content: space-between;  /* Space between score and button */
-    align-items: center;
-    width: 800px;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.timer {
-    flex: 0 1 auto;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-#game-container {
-    width: 800px;
-    height: 600px;
-    background-color: #e6f7ff;
-    border: 2px solid #333;
-    border-radius: 8px;
-    position: relative;
-    overflow: hidden;
-}
-
-
-#start-btn {
-    padding: 8px 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-#start-btn:hover {
-    background-color: #45a049;
-}
-
-.score {
-    flex: 0 1 auto;  /* Don't grow, can shrink, auto basis */
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.water-drop {
-    position: absolute;
-    width: 60px;  /* increased from 40px */
-    height: 60px; /* increased from 40px */
-    background-color: #0099ff;
-    border-radius: 50%;
-    animation: dropFall linear forwards;
-    transform-origin: center;
-    cursor: pointer;
-    padding: 15px;  /* Add padding for larger click area */
-    margin: -15px;  /* Offset padding to maintain visual size */
-    transition: transform 0.1s ease;  /* Smooth hover effect */
-}
-
-.water-drop:hover {
-    transform: scale(1.1);  /* Slight grow effect on hover */
-}
-
-.bad-drop {
-    background-color: #ff4444;
-}
-
 .game-title {
     color: #131313;
     font-size: 48px;
     margin-top: 0;
-    margin-bottom: 5px;  /* reduced from 20px */
+    margin-bottom: 5px;
     text-align: center;
 }
 
 .game-tagline {
     color: #666;
     font-size: 18px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     text-align: center;
+}
+
+.score-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 800px;
+    padding: 15px 25px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.score {
+    flex: 0 1 auto;
+    font-size: 24px;
+    font-weight: bold;
+    color: #131313;
+}
+
+.timer {
+    flex: 0 1 auto;
+    font-size: 24px;
+    font-weight: bold;
+    color: #131313;
+}
+
+#start-btn {
+    padding: 10px 20px;
+    background-color: #FFC907; /* charity: water Yellow */
+    color: #131313;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.2s ease;
+}
+
+#start-btn:hover {
+    background-color: #e0b005;
+}
+
+#game-container {
+    width: 800px;
+    height: 600px;
+    background-color: #e6f7ff; /* Soft water tint */
+    border: 2px solid #131313;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Base Drop Styles */
+.water-drop {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-color: #2E9DF7; /* charity: water Blue */
+    border-radius: 50%;
+    animation: dropFall linear forwards;
+    transform-origin: center;
+    cursor: pointer;
+    padding: 15px;  /* Maintained your larger click area padding */
+    margin: -15px;  
+    transition: transform 0.1s ease;
+}
+
+.water-drop:hover {
+    transform: scale(1.1);
+}
+
+/* Bad Drop Variant */
+.bad-drop {
+    background-color: #F5402C; /* charity: water Red */
 }
 
 @keyframes dropFall {
     from {
-        transform: translateY(-20px);
+        transform: translateY(-80px); /* Adjusted slightly so large drops start completely hidden */
     }
     to {
-        transform: translateY(600px);
+        transform: translateY(620px);
     }
 }
 
