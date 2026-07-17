@@ -21,8 +21,10 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f7f7f7; /* Soft off-white brand background */
+    background-color: #f7f7f7;
     font-family: "Avenir", "Proxima Nova", Arial, sans-serif;
+    user-select: none;
+    overflow-x: hidden;
 }
 
 .game-wrapper {
@@ -30,69 +32,98 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    width: 100%;
+    padding: 20px;
 }
 
 .game-title {
     color: #131313;
-    font-size: 48px;
-    margin-top: 0;
+    font-size: 3rem;
     margin-bottom: 5px;
     text-align: center;
 }
 
 .game-tagline {
     color: #666;
-    font-size: 18px;
+    font-size: 1.1rem;
     margin-bottom: 10px;
     text-align: center;
+    max-width: 600px;
 }
 
 .score-panel {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 800px;
+    width: 100%;
+    max-width: 800px;
     padding: 15px 25px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
-.score {
-    flex: 0 1 auto;
-    font-size: 24px;
+.score-flash-positive {
+    background-color: #e6f9ed !important;
+    transform: scale(1.02);
+}
+
+.score-flash-negative {
+    background-color: #fdeae8 !important;
+    transform: scale(0.98);
+}
+
+.score, .timer {
+    font-size: 1.5rem;
     font-weight: bold;
     color: #131313;
 }
 
-.timer {
-    flex: 0 1 auto;
-    font-size: 24px;
-    font-weight: bold;
-    color: #131313;
+.button-group {
+    display: flex;
+    gap: 10px;
 }
 
-#start-btn {
+#start-btn, #reset-btn {
     padding: 10px 20px;
-    background-color: #FFC907; /* charity: water Yellow */
-    color: #131313;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
     text-transform: uppercase;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, opacity 0.2s;
 }
 
-#start-btn:hover {
+#start-btn {
+    background-color: #FFC907;
+    color: #131313;
+}
+
+#start-btn:hover:not(:disabled) {
     background-color: #e0b005;
 }
 
+#reset-btn {
+    background-color: #131313;
+    color: white;
+}
+
+#reset-btn:hover {
+    background-color: #333;
+}
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 #game-container {
-    width: 800px;
+    width: 100%;
+    max-width: 800px;
     height: 600px;
-    background-color: #e6f7ff; /* Soft water tint */
+    background-color: #e6f7ff; 
     border: 2px solid #131313;
     border-radius: 8px;
     position: relative;
@@ -100,45 +131,102 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-/* Base Drop Styles */
-.water-drop {
+.game-element {
     position: absolute;
-    width: 60px;
-    height: 60px;
-    background-color: #2E9DF7; /* charity: water Blue */
-    border-radius: 50%;
+    cursor: pointer;
     animation: dropFall linear forwards;
     transform-origin: center;
-    cursor: pointer;
-    padding: 15px;  /* Maintained your larger click area padding */
-    margin: -15px;  
     transition: transform 0.1s ease;
 }
 
-.water-drop:hover {
+.game-element:hover {
     transform: scale(1.1);
 }
 
-/* Bad Drop Variant */
-.bad-drop {
-    background-color: #F5402C; /* charity: water Red */
+.water-drop {
+    background-color: #2E9DF7;
+    border-radius: 50%;
+}
+
+.pollution-can {
+    background-color: #5a5a5a;
+    border: 3px solid #F5402C;
+    border-radius: 6px;
+    position: absolute;
+}
+
+.pollution-can::before {
+    content: 'X';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #F5402C;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.click-feedback {
+    position: absolute;
+    font-weight: bold;
+    font-size: 1.5rem;
+    pointer-events: none;
+    animation: floatUpAndOut 0.6s ease-out forwards;
+    z-index: 10;
+}
+
+.celebration-particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    pointer-events: none;
+    animation: particleFall linear forwards;
+    z-index: 5;
 }
 
 @keyframes dropFall {
     from {
-        transform: translateY(-80px); /* Adjusted slightly so large drops start completely hidden */
+        transform: translateY(-80px);
     }
     to {
         transform: translateY(620px);
     }
 }
 
-@media (max-width: 850px) {
-    .game-wrapper, .score-panel, #game-container {
-        width: 95vw;
+@keyframes floatUpAndOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
-    
+    100% {
+        opacity: 0;
+        transform: translateY(-60px) scale(1.2);
+    }
+}
+
+@keyframes particleFall {
+    0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(620px) rotate(720deg);
+        opacity: 0.3;
+    }
+}
+
+@media (max-width: 850px) {
     #game-container {
-        height: 70vh;
+        height: 50vh;
+    }
+    .game-title {
+        font-size: 2.2rem;
+    }
+    .score-panel {
+        padding: 10px 15px;
+    }
+    .score, .timer {
+        font-size: 1.2rem;
     }
 }

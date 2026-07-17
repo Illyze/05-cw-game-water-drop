@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Water Drop Game</title>
+    <title>Water Drop Game - charity: water</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="game-wrapper">
-        <!-- Optional Logo Placeholder - Ensure logo.png is in your folder if used -->
-        <!-- <img src="logo.png" alt="charity: water logo" style="max-width: 140px; height: auto; margin-bottom: -5px;"> -->
-        
         <h1 class="game-title">Water Drop</h1>
-        <p class="game-tagline">Catch the good drops, avoid the bad ones!</p>
+        <p class="game-tagline">Catch the good drops, clear out the toxic cans to protect the water!</p>
         
-        <div class="score-panel">
+        <div class="score-panel" id="score-panel">
             <div class="score">Score: <span id="score">0</span></div>
             <div class="timer">Time: <span id="time">30</span>s</div>
-            <button id="start-btn">Start Game</button>
+            <div class="button-group">
+                <button id="start-btn">Start Game</button>
+                <button id="reset-btn">Reset</button>
+            </div>
         </div>
         
         <div id="game-container"></div>

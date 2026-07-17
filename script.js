@@ -1,58 +1,63 @@
-// Game State Variables
+// Game Parameters & State
 let score = 0;
 let timeLeft = 30;
 let gameRunning = false;
-let dropMaker; 
-let gameTimer; 
+let dropMakerInterval = null; 
+let gameCountdownInterval = null; 
+let celebrationInterval = null;
 
-// DOM Element Selectors
+// Select DOM Elements
 const startBtn = document.getElementById("start-btn");
+const resetBtn = document.getElementById("reset-btn");
 const scoreDisplay = document.getElementById("score");
 const timeDisplay = document.getElementById("time");
 const gameContainer = document.getElementById("game-container");
+const scorePanel = document.getElementById("score-panel");
 
-// Randomized Message Arrays
+// Stakeholder Inspired Message Libraries
 const winningMessages = [
-  "Fantastic job! You're a water-saving hero!",
-  "Splashtastic! You crushed it!",
-  "Amazing work! Clean water for everyone!",
-  "Victory! Your quick reflexes saved the day!"
+  "Fantastic job! You're a clean water champion!",
+  "Splashtastic! You kept the water systems clean!",
+  "Amazing work! You brought clean water to those in need!",
+  "Victory! Your quick reflexes saved the project ecosystem!"
 ];
 
 const losingMessages = [
-  "Nice try! Give it another splash.",
-  "Keep practicing! Every drop counts.",
-  "So close! Can you beat your high score next time?",
-  "Don't give up! The drops are fast, but you can be faster."
+  "Nice attempt! Give it another splash to clean up.",
+  "Keep practicing! Every single drop counts.",
+  "So close! Can you bypass the pollution challenges next time?",
+  "Don't give up! Clean water grids need your help."
 ];
 
-// Event Listeners
+// Event Hooks
 startBtn.addEventListener("click", startGame);
+resetBtn.addEventListener("click", resetGame);
 
 function startGame() {
   if (gameRunning) return;
 
-  // Initialize and Reset Game State
   gameRunning = true;
   score = 0;
   timeLeft = 30;
   scoreDisplay.textContent = score;
   timeDisplay.textContent = timeLeft;
   
-  // Wipe out any message boxes or old drops left on screen
   gameContainer.innerHTML = "";
+  stopCelebration();
   
-  // Handle Button State Changes
   startBtn.disabled = true;
-  startBtn.style.opacity = "0.5";
-  startBtn.style.cursor = "not-allowed";
 
-  // Intervals: Spawn a drop every 850ms, update countdown every 1s
-  dropMaker = setInterval(createDrop, 850);
-  gameTimer = setInterval(updateTimer, 1000);
+  // Clear any loose intervals safely before assigning new ones
+  if (dropMakerInterval) clearInterval(dropMakerInterval);
+  if (gameCountdownInterval) clearInterval(gameCountdownInterval);
+
+  dropMakerInterval = setInterval(spawnGameElement, 700);
+  gameCountdownInterval = setInterval(tickTimer, 1000);
 }
 
-function updateTimer() {
+function tickTimer() {
+  if (!gameRunning) return;
+  
   timeLeft--;
   timeDisplay.textContent = timeLeft;
 
@@ -61,103 +66,184 @@ function updateTimer() {
   }
 }
 
-function createDrop() {
-  const drop = document.createElement("div");
+function spawnGameElement() {
+  if (!gameRunning) return;
+
+  const element = document.createElement("div");
   
-  // 25% Chance to generate a Bad Drop
-  const isBadDrop = Math.random() < 0.25;
-  if (isBadDrop) {
-    drop.className = "water-drop bad-drop";
+  // 75% Chance Water Drop, 25% Chance Toxic Can Challenge
+  const isObstacle = Math.random() < 0.25;
+  
+  if (isObstacle) {
+    element.className = "game-element pollution-can";
+    element.style.width = "40px";
+    element.style.height = "55px";
   } else {
-    drop.className = "water-drop";
+    element.className = "game-element water-drop";
+    const initialSize = 55;
+    const sizeMultiplier = Math.random() * 0.6 + 0.6;
+    const computedSize = initialSize * sizeMultiplier;
+    element.style.width = `${computedSize}px`;
+    element.style.height = `${computedSize}px`;
   }
 
-  // Visual Variety Sizing Logic
-  const initialSize = 60;
-  const sizeMultiplier = Math.random() * 0.8 + 0.5;
-  const size = initialSize * sizeMultiplier;
-  drop.style.width = `${size}px`;
-  drop.style.height = `${size}px`;
+  const containerWidth = gameContainer.offsetWidth || 800;
+  const elementWidth = isObstacle ? 40 : 55;
+  const targetX = Math.random() * (containerWidth - elementWidth);
+  element.style.left = `${targetX}px`;
 
-  // Random Horizontal Positioning within Boundaries
-  const gameWidth = gameContainer.offsetWidth;
-  const xPosition = Math.random() * (gameWidth - size);
-  drop.style.left = xPosition + "px";
+  const fallSpeed = Math.random() * 1.8 + 2.2; 
+  element.style.animationDuration = `${fallSpeed}s`;
 
-  // Falling Speed Mechanics
-  const fallDuration = Math.random() * 2 + 2.5; // Ranges from 2.5s to 4.5s
-  drop.style.animationDuration = `${fallDuration}s`;
-
-  // Clicking / Catching Mechanic
-  drop.addEventListener("mousedown", (e) => {
+  // Standardized Click Engine
+  element.addEventListener("click", (e) => {
     if (!gameRunning) return;
-    
-    e.stopPropagation(); // Stops double click behaviors
+    e.stopPropagation();
 
-    if (isBadDrop) {
-      score = Math.max(0, score - 2); // Penalize but don't drop below 0
+    let pointsChanged = 0;
+    let feedbackColor = "";
+
+    if (isObstacle) {
+      pointsChanged = -3;
+      score = Math.max(0, score + pointsChanged); 
+      feedbackColor = "#F5402C"; 
+      triggerScorePanelFlash("negative");
     } else {
-      score += 1;
+      pointsChanged = 1;
+      score += pointsChanged;
+      feedbackColor = "#2E9DF7"; 
+      triggerScorePanelFlash("positive");
     }
-    
+
     scoreDisplay.textContent = score;
-    drop.remove(); // Delete drop visually right away
+    createFloatingFeedback(e.clientX, e.clientY, pointsChanged, feedbackColor);
+    element.remove();
   });
 
-  gameContainer.appendChild(drop);
+  gameContainer.appendChild(element);
 
-  // Animation Cleanup
-  drop.addEventListener("animationend", () => {
-    drop.remove(); 
+  element.addEventListener("animationend", () => {
+    element.remove();
   });
+}
+
+function createFloatingFeedback(clientX, clientY, value, color) {
+  const feedback = document.createElement("span");
+  feedback.className = "click-feedback";
+  feedback.style.color = color;
+  feedback.textContent = value > 0 ? `+${value}` : value;
+
+  const rect = gameContainer.getBoundingClientRect();
+  const insideX = clientX - rect.left;
+  const insideY = clientY - rect.top;
+
+  feedback.style.left = `${insideX}px`;
+  feedback.style.top = `${insideY}px`;
+
+  gameContainer.appendChild(feedback);
+  setTimeout(() => feedback.remove(), 600);
+}
+
+function triggerScorePanelFlash(type) {
+  const activeClass = type === "positive" ? "score-flash-positive" : "score-flash-negative";
+  scorePanel.classList.add(activeClass);
+  setTimeout(() => {
+    scorePanel.classList.remove(activeClass);
+  }, 150);
 }
 
 function endGame() {
   gameRunning = false;
-  clearInterval(dropMaker);
-  clearInterval(gameTimer);
-
-  // Clean the map
+  clearInterval(dropMakerInterval);
+  clearInterval(gameCountdownInterval);
   gameContainer.innerHTML = "";
-
-  // Reset Button States
   startBtn.disabled = false;
-  startBtn.style.opacity = "1";
-  startBtn.style.cursor = "pointer";
 
-  // Pick messaging arrays conditionally
-  let finalMessage = "";
-  if (score >= 20) {
-    const randomIndex = Math.floor(Math.random() * winningMessages.length);
-    finalMessage = winningMessages[randomIndex];
+  let chosenPhrase = "";
+  const playerWon = score >= 20;
+
+  if (playerWon) {
+    const pick = Math.floor(Math.random() * winningMessages.length);
+    chosenPhrase = winningMessages[pick];
+    startCelebration(); 
   } else {
-    const randomIndex = Math.floor(Math.random() * losingMessages.length);
-    finalMessage = losingMessages[randomIndex];
+    const pick = Math.floor(Math.random() * losingMessages.length);
+    chosenPhrase = losingMessages[pick];
   }
 
-  // Create an overlay inside the box
-  const overlay = document.createElement("div");
-  overlay.style.cssText = `
+  const box = document.createElement("div");
+  box.style.cssText = `
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 30px;
+    background: rgba(255, 255, 255, 0.98);
+    padding: 35px;
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-    width: 75%;
-    border-top: 5px solid ${score >= 20 ? '#4FCB53' : '#F5402C'};
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    width: 80%;
+    max-width: 450px;
+    border-top: 6px solid ${playerWon ? '#4FCB53' : '#F5402C'};
+    z-index: 20;
   `;
 
-  overlay.innerHTML = `
-    <h2 style="color: ${score >= 20 ? '#4FCB53' : '#F5402C'}; font-size: 32px; margin-bottom: 10px;">
-      ${score >= 20 ? 'You Win!' : 'Game Over'}
+  box.innerHTML = `
+    <h2 style="color: ${playerWon ? '#4FCB53' : '#F5402C'}; font-size: 2rem; margin-bottom: 12px;">
+      ${playerWon ? 'You Win!' : 'Game Over'}
     </h2>
-    <p style="font-size: 18px; color: #333; margin-bottom: 20px; line-height: 1.4;">${finalMessage}</p>
-    <p style="font-size: 20px; font-weight: bold; color: #131313;">Final Score: ${score}</p>
+    <p style="font-size: 1.1rem; color: #333; margin-bottom: 20px; line-height: 1.4;">${chosenPhrase}</p>
+    <p style="font-size: 1.3rem; font-weight: bold; color: #131313;">Final Score Collected: ${score}</p>
   `;
 
-  gameContainer.appendChild(overlay);
+  gameContainer.appendChild(box);
+}
+
+function resetGame() {
+  gameRunning = false;
+  clearInterval(dropMakerInterval);
+  clearInterval(gameCountdownInterval);
+  stopCelebration();
+  
+  score = 0;
+  timeLeft = 30;
+  scoreDisplay.textContent = score;
+  timeDisplay.textContent = timeLeft;
+  
+  gameContainer.innerHTML = "";
+  startBtn.disabled = false;
+}
+
+function startCelebration() {
+  const brandColors = ['#FFC907', '#2E9DF7', '#8BD1CB', '#4FCB53', '#FF902A'];
+  if (celebrationInterval) clearInterval(celebrationInterval);
+  
+  celebrationInterval = setInterval(() => {
+    if (gameRunning) return; 
+    const particle = document.createElement("div");
+    particle.className = "celebration-particle";
+    particle.style.backgroundColor = brandColors[Math.floor(Math.random() * brandColors.length)];
+    particle.style.left = `${Math.random() * (gameContainer.offsetWidth || 800)}px`;
+    
+    if (Math.random() > 0.5) {
+        particle.style.borderRadius = "50%";
+    }
+    
+    const size = Math.random() * 8 + 6;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    
+    const speed = Math.random() * 2 + 2; 
+    particle.style.animationDuration = `${speed}s`;
+    
+    gameContainer.appendChild(particle);
+    setTimeout(() => particle.remove(), speed * 1000);
+  }, 40);
+}
+
+function stopCelebration() {
+  if (celebrationInterval) {
+    clearInterval(celebrationInterval);
+    celebrationInterval = null;
+  }
 }
