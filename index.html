@@ -3,25 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Water Drop Game - charity: water</title>
+    <title>charity: water — Water Drop Game</title>
+    <!-- Brand Fonts (Plus Jakarta Sans & Serif Accent) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="game-wrapper">
-        <h1 class="game-title">Water Drop</h1>
-        <p class="game-tagline">Catch the good drops, clear out the toxic cans to protect the water!</p>
+
+    <!-- Official Style Navigation Header -->
+    <header class="cw-navbar">
+        <div class="cw-nav-container">
+            <div class="cw-logo-group">
+                <!-- SVG Jerry Can Logo -->
+                <svg class="cw-jerrycan" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="24" width="80" height="90" rx="8" fill="#FFC907"/>
+                    <rect x="30" y="6" width="40" height="18" rx="4" fill="#FFC907"/>
+                    <rect x="42" y="18" width="16" height="12" fill="#E5B200"/>
+                    <rect x="25" y="40" width="50" height="20" rx="4" fill="#E5B200" opacity="0.3"/>
+                </svg>
+                <span class="cw-wordmark">charity: water</span>
+            </div>
+            
+            <div class="cw-nav-actions">
+                <span class="cw-impact-badge">100% funds clean water</span>
+                <a href="https://www.charitywater.org/donate" target="_blank" class="cw-btn-donate">Donate</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="game-wrapper">
         
+        <div class="hero-section">
+            <span class="sub-headline">Interactive Experience</span>
+            <h1 class="main-title">Water Drop Game</h1>
+            <p class="tagline">Collect clean water drops while avoiding pollution. Help bring clean, safe drinking water to communities around the world.</p>
+        </div>
+
+        <!-- Difficulty Controls -->
+        <div class="difficulty-panel">
+            <span class="panel-label">Select Mode:</span>
+            <button class="diff-btn active" data-mode="easy">Easy</button>
+            <button class="diff-btn" data-mode="normal">Normal</button>
+            <button class="diff-btn" data-mode="hard">Hard</button>
+        </div>
+
+        <!-- Dashboard Scorebar -->
         <div class="score-panel" id="score-panel">
-            <div class="score">Score: <span id="score">0</span></div>
-            <div class="timer">Time: <span id="time">30</span>s</div>
+            <div class="stat-box">
+                <span class="stat-label">Water Collected</span>
+                <span class="stat-value" id="score">0</span>
+            </div>
+            
             <div class="button-group">
-                <button id="start-btn">Start Game</button>
-                <button id="reset-btn">Reset</button>
+                <button id="start-btn" class="btn-primary">Start Game</button>
+                <button id="reset-btn" class="btn-secondary">Reset</button>
+            </div>
+            
+            <div class="stat-box align-right">
+                <span class="stat-label">Time Remaining</span>
+                <span class="stat-value"><span id="time">35</span>s</span>
             </div>
         </div>
         
-        <div id="game-container"></div>
-    </div>
+        <!-- Game Play Container -->
+        <div id="game-container">
+            <div id="milestone-banner" class="hidden"></div>
+        </div>
+
+        <!-- Official Footer -->
+        <footer class="cw-footer">
+            <div class="footer-content">
+                <p>100% of public donations directly fund water project costs.</p>
+                <div class="footer-links">
+                    <a href="https://www.charitywater.org/our-work" target="_blank">Our Work</a>
+                    <span class="dot">•</span>
+                    <a href="https://www.charitywater.org/about" target="_blank">Why Water?</a>
+                    <span class="dot">•</span>
+                    <a href="https://www.charitywater.org/donate" target="_blank" class="accent-link">Give Clean Water</a>
+                </div>
+            </div>
+        </footer>
+    </main>
     
     <script src="script.js"></script>
 </body>

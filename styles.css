@@ -1,13 +1,11 @@
-/* Charity: water Brand Colors & Fonts
-Primary Colors:
-- Yellow:     #FFC907
-- Blue:       #2E9DF7
-
-Secondary Colors:
-- Light Blue: #8BD1CB
-- Green:      #4FCB53
-- Orange:     #FF902A
-- Red:        #F5402C
+/* charity: water Official Brand Styling 
+Palette:
+- Jerry Can Yellow: #FFC907
+- Slate Dark:       #1C252C
+- Ocean Blue:       #2E9DF7
+- Eco Green:        #159A48
+- Canvas Off-White: #F9FAFB
+- Pure White:       #FFFFFF
 */
 
 * {
@@ -17,67 +15,195 @@ Secondary Colors:
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: #F9FAFB;
+    color: #1C252C;
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
     min-height: 100vh;
-    background-color: #f7f7f7;
-    font-family: "Avenir", "Proxima Nova", Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     user-select: none;
     overflow-x: hidden;
 }
 
+/* Header Navigation Bar */
+.cw-navbar {
+    width: 100%;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E5E7EB;
+    padding: 14px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.cw-nav-container {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cw-logo-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cw-jerrycan {
+    width: 26px;
+    height: 30px;
+}
+
+.cw-wordmark {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #1C252C;
+}
+
+.cw-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.cw-impact-badge {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #159A48;
+    background-color: #E8F5E9;
+    padding: 6px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cw-btn-donate {
+    background-color: #FFC907;
+    color: #1C252C;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 8px 18px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.cw-btn-donate:hover {
+    background-color: #F5BE00;
+}
+
+/* Game Outer Wrapper */
 .game-wrapper {
+    width: 100%;
+    max-width: 860px;
+    padding: 32px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    width: 100%;
-    padding: 20px;
 }
 
-.game-title {
-    color: #131313;
-    font-size: 3rem;
-    margin-bottom: 5px;
+/* Hero Heading */
+.hero-section {
     text-align: center;
+    max-width: 580px;
 }
 
-.game-tagline {
-    color: #666;
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-    text-align: center;
-    max-width: 600px;
+.sub-headline {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #7A8B99;
 }
 
+.main-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #1C252C;
+    margin: 4px 0 8px 0;
+    letter-spacing: -0.5px;
+}
+
+.tagline {
+    font-size: 0.95rem;
+    color: #5A6A75;
+    line-height: 1.5;
+}
+
+/* Difficulty Selector Pill Bar */
+.difficulty-panel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #FFFFFF;
+    padding: 6px 12px;
+    border-radius: 30px;
+    border: 1px solid #E5E7EB;
+}
+
+.panel-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #8A9BA8;
+    text-transform: uppercase;
+    margin-right: 4px;
+}
+
+.diff-btn {
+    padding: 6px 16px;
+    border: none;
+    background-color: transparent;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #5A6A75;
+    transition: all 0.2s ease;
+}
+
+.diff-btn.active {
+    background-color: #1C252C;
+    color: #FFFFFF;
+}
+
+/* Score Panel Bar */
 .score-panel {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 800px;
-    padding: 15px 25px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    transition: background-color 0.15s ease, transform 0.1s ease;
+    padding: 16px 28px;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
 }
 
-.score-flash-positive {
-    background-color: #e6f9ed !important;
-    transform: scale(1.02);
+.stat-box {
+    display: flex;
+    flex-direction: column;
 }
 
-.score-flash-negative {
-    background-color: #fdeae8 !important;
-    transform: scale(0.98);
+.stat-box.align-right {
+    align-items: flex-end;
 }
 
-.score, .timer {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #131313;
+.stat-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #8A9BA8;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.stat-value {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #1C252C;
 }
 
 .button-group {
@@ -85,148 +211,174 @@ body {
     gap: 10px;
 }
 
-#start-btn, #reset-btn {
-    padding: 10px 20px;
+.btn-primary, .btn-secondary {
+    padding: 10px 22px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: background-color 0.2s ease, opacity 0.2s;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: all 0.15s ease;
 }
 
-#start-btn {
+.btn-primary {
     background-color: #FFC907;
-    color: #131313;
+    color: #1C252C;
 }
 
-#start-btn:hover:not(:disabled) {
-    background-color: #e0b005;
+.btn-primary:hover:not(:disabled) {
+    background-color: #F5BE00;
+    transform: translateY(-1px);
 }
 
-#reset-btn {
-    background-color: #131313;
-    color: white;
+.btn-secondary {
+    background-color: #F3F4F6;
+    color: #4B5563;
 }
 
-#reset-btn:hover {
-    background-color: #333;
+.btn-secondary:hover {
+    background-color: #E5E7EB;
 }
 
 button:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+    transform: none !important;
 }
 
+/* Game Canvas */
 #game-container {
     width: 100%;
-    max-width: 800px;
-    height: 600px;
-    background-color: #e6f7ff; 
-    border: 2px solid #131313;
-    border-radius: 8px;
+    height: 480px;
+    background: linear-gradient(180deg, #F0F7FF 0%, #FFFFFF 100%);
+    border: 2px solid #E5E7EB;
+    border-radius: 16px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
 }
 
+/* Game Objects */
 .game-element {
     position: absolute;
     cursor: pointer;
     animation: dropFall linear forwards;
-    transform-origin: center;
+}
+
+/* Water Balls */
+.water-drop {
+    background: radial-gradient(circle at 35% 35%, #70C1FF 0%, #2E9DF7 60%, #1572C2 100%);
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(46, 157, 247, 0.35);
     transition: transform 0.1s ease;
 }
 
-.game-element:hover {
-    transform: scale(1.1);
+.water-drop:hover {
+    transform: scale(1.15);
 }
 
-.water-drop {
-    background-color: #2E9DF7;
-    border-radius: 50%;
-}
-
+/* Pollution Hazards */
 .pollution-can {
-    background-color: #5a5a5a;
-    border: 3px solid #F5402C;
+    background-color: #374151;
+    border: 2px solid #EF4444;
     border-radius: 6px;
-    position: absolute;
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+    transition: transform 0.1s ease;
 }
 
 .pollution-can::before {
-    content: 'X';
+    content: '✕';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #F5402C;
-    font-weight: bold;
+    color: #EF4444;
+    font-weight: 800;
     font-size: 14px;
 }
 
 .click-feedback {
     position: absolute;
-    font-weight: bold;
-    font-size: 1.5rem;
+    font-weight: 800;
+    font-size: 1.4rem;
     pointer-events: none;
     animation: floatUpAndOut 0.6s ease-out forwards;
     z-index: 10;
 }
 
-.celebration-particle {
+/* Milestone Popup Banner */
+#milestone-banner {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
-    pointer-events: none;
-    animation: particleFall linear forwards;
-    z-index: 5;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1C252C;
+    color: #FFC907;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    z-index: 15;
 }
 
+.hidden {
+    display: none !important;
+}
+
+/* Footer Section */
+.cw-footer {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 0.88rem;
+    color: #6B7280;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+
+.footer-links a {
+    color: #2E9DF7;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer-links a.accent-link {
+    color: #159A48;
+    font-weight: 700;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.dot {
+    color: #D1D5DB;
+}
+
+/* Animations */
 @keyframes dropFall {
-    from {
-        transform: translateY(-80px);
-    }
-    to {
-        transform: translateY(620px);
-    }
+    from { transform: translateY(-80px); }
+    to { transform: translateY(500px); }
 }
 
 @keyframes floatUpAndOut {
-    0% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-60px) scale(1.2);
-    }
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-50px) scale(1.2); }
 }
 
-@keyframes particleFall {
-    0% {
-        transform: translateY(-20px) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(620px) rotate(720deg);
-        opacity: 0.3;
-    }
-}
-
-@media (max-width: 850px) {
-    #game-container {
-        height: 50vh;
-    }
-    .game-title {
-        font-size: 2.2rem;
-    }
-    .score-panel {
-        padding: 10px 15px;
-    }
-    .score, .timer {
-        font-size: 1.2rem;
-    }
+@media (max-width: 640px) {
+    .cw-impact-badge { display: none; }
+    .main-title { font-size: 1.8rem; }
+    #game-container { height: 400px; }
 }
